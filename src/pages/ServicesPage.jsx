@@ -138,24 +138,24 @@ export const ServicesPage = () => {
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }, 300);
           }}
-          className="relative z-50 cursor-pointer inline-flex items-center text-sm font-bold text-gray-900 dark:text-white hover:text-primary transition-colors mt-8 mb-4 backdrop-blur-md bg-transparent border border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] px-5 py-2 rounded-full"
+          className="group inline-flex items-center text-xs font-mono uppercase tracking-wider font-bold text-white hover:text-purple-300 transition-all backdrop-blur-md bg-[#0E0C1F] border border-purple-500/25 hover:border-purple-400 hover:bg-purple-600/20 px-5 py-2.5 rounded-none cursor-pointer mt-8 mb-4"
         >
-          <Icons.ArrowLeft className="w-4 h-4 mr-2" />
+          <Icons.ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back
         </button>
         <div className="text-center max-w-3xl mx-auto mb-16 pt-4">
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-extrabold font-sans tracking-tight mb-6 text-[#0F172A] dark:text-white"
+            className="text-4xl md:text-5xl font-bold font-space uppercase tracking-tight mb-6 text-white"
           >
-            All <span className="glossy-neon-white pb-1">Cybersecurity</span> <span className="glossy-neon-purple pb-1">Services</span>
+            ALL <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-200">CYBERSECURITY SERVICES</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-gray-800 dark:text-gray-300 font-medium text-lg drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] dark:drop-shadow-none mb-8"
+            className="text-gray-300 font-sans text-base mb-8"
           >
             Explore our complete suite of advanced cybersecurity solutions designed to secure every aspect of your digital infrastructure.
           </motion.p>
@@ -163,7 +163,7 @@ export const ServicesPage = () => {
           {isAuthenticated && (
             <button
               onClick={() => { setEditingService(null); setIsModalOpen(true); }}
-              className="mt-4 px-6 py-2.5 rounded-full cyber-button-solid text-sm font-bold flex items-center gap-2 mx-auto"
+              className="mt-4 px-6 py-2.5 rounded-none cyber-button-solid text-xs font-mono uppercase tracking-wider font-bold flex items-center gap-2 mx-auto"
             >
               <Icons.Plus className="w-4 h-4" />
               Add Service

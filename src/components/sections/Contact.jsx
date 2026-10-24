@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { submitContact } from '../../utils/blogStore';
 
 export const Contact = () => {
@@ -25,112 +25,130 @@ export const Contact = () => {
       form.reset();
       setTimeout(() => setSubmitted(false), 5000);
     } catch (err) {
-      alert('Failed to send message: ' + err.message);
+      alert('Failed to send inquiry: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section 
-      id="contact" 
-      className="py-24 relative z-10 bg-transparent"
-      style={{
-        backgroundImage: "none",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <div className="container mx-auto px-6">
-        <div className="max-w-5xl mx-auto items-center">
-          {/* Form Side */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="bg-black/30 backdrop-blur-sm border border-white/10 shadow-xl p-8 md:p-10 rounded-3xl relative overflow-hidden">
-              {/* Form glowing accent */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-              
-              <div className="text-center mb-8">
-                <h3 
-                  className="text-xl md:text-2xl lg:text-[1.7rem] leading-tight font-black uppercase text-white mb-2"
-                  style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}
-                >
-                  WANT TO STAY <span className="text-[#c77dff]">CONNECTED?</span>
-                </h3>
-                <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto">
-                  Partner with our elite cybersecurity team to fortify your digital infrastructure, mitigate risks, and respond rapidly to emerging threats.
-                </p>
+    <section id="contact" className="py-14 sm:py-16 border-b border-[var(--border-hairline)] bg-[var(--bg-base)]">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="max-w-4xl mx-auto">
+          
+          <div className="border border-[var(--border-hairline)] bg-[var(--bg-card)] p-8 sm:p-12 md:p-14 rounded-none">
+            
+            {/* Header */}
+            <div className="pb-5 mb-6 border-b border-[var(--border-hairline)]">
+              <div className="inline-flex items-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 bg-[var(--text-heading)] rounded-none" />
+                <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] font-medium">
+                  ENGAGEMENT REQUEST & SCOPING
+                </span>
               </div>
+              <h3 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[var(--text-heading)] mb-4 md:whitespace-nowrap">
+                Initiate a Security Assessment.
+              </h3>
+              <p className="font-sans text-sm sm:text-base text-[var(--text-body)] leading-relaxed max-w-2xl">
+                Engage our senior offensive security team under mutual non-disclosure. We review targets and respond with a tailored assessment scope and methodology docket within one business day.
+              </p>
+            </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-normal text-gray-200">Full Name</label>
-                    <input 
-                      type="text" 
-                      name="name"
-                      required
-                      className="w-full bg-white/5 border border-white/10 shadow-sm rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
-                      placeholder="Name"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-normal text-gray-200">Work Email</label>
-                    <input 
-                      type="email" 
-                      name="email"
-                      required
-                      className="w-full bg-white/5 border border-white/10 shadow-sm rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
-                      placeholder="company@email.com"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-normal text-gray-200">Service Required</label>
-                    <select aria-label="Select a service" name="service" defaultValue="" className="w-full bg-white/5 border border-white/10 shadow-sm rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors appearance-none">
-                      <option value="" disabled hidden className="text-gray-400">Select a service</option>
-                      <option value="digital-forensics" className="text-black">Digital Forensics</option>
-                      <option value="cyber-threat-intelligence" className="text-black">Cyber Threat Intelligence</option>
-                      <option value="incident-response" className="text-black">Incident Response</option>
-                      <option value="reverse-engineering" className="text-black">Reverse Engineering & Malware Analysis</option>
-                      <option value="other" className="text-black">Other</option>
-                    </select>
-                  </div>
-                </div>
-
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
                 <div className="space-y-2">
-                  <label className="text-sm font-normal text-gray-200">Message</label>
-                  <textarea 
-                    name="message"
+                  <label className="block font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] font-medium">
+                    Principal Contact
+                  </label>
+                  <input 
+                    type="text" 
+                    name="name"
                     required
-                    rows={3}
-                    className="w-full bg-white/5 border border-white/10 shadow-sm rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none"
-                    placeholder="Tell us about your security needs..."
+                    className="w-full border border-[var(--border-hairline)] bg-[var(--bg-base)] rounded-none px-4 py-3 text-[var(--text-heading)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:border-[var(--text-heading)] transition-colors"
+                    placeholder="e.g. Eleanor Vance"
                   />
                 </div>
 
-                <div className="flex justify-end">
-                  <button 
-                    type="submit" 
-                    disabled={isSubmitting || submitted}
-                    className={`${submitted ? 'bg-success text-black' : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'} px-8 py-3 rounded-full font-bold flex items-center justify-center gap-2 transition-all shadow-lg`}
-                  >
-                    {isSubmitting ? (
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    ) : submitted ? (
-                      <>Sent <ShieldCheck className="w-5 h-5" /></>
-                    ) : (
-                      <>SUBMIT <ArrowRight className="w-5 h-5" /></>
-                    )}
-                  </button>
+                <div className="space-y-2">
+                  <label className="block font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] font-medium">
+                    Corporate Email
+                  </label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    required
+                    className="w-full border border-[var(--border-hairline)] bg-[var(--bg-base)] rounded-none px-4 py-3 text-[var(--text-heading)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:border-[var(--text-heading)] transition-colors"
+                    placeholder="security@organization.com"
+                  />
                 </div>
-              </form>
-            </div>
-          </motion.div>
+
+                <div className="space-y-2">
+                  <label className="block font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] font-medium">
+                    Assessment Discipline
+                  </label>
+                  <select 
+                    aria-label="Select an assessment discipline" 
+                    name="service" 
+                    defaultValue="" 
+                    required
+                    className="w-full border border-[var(--border-hairline)] bg-[var(--bg-base)] rounded-none px-4 py-3 text-[var(--text-heading)] text-sm focus:outline-none focus:border-[var(--text-heading)] transition-colors"
+                  >
+                    <option value="" disabled hidden>Select discipline...</option>
+                    <option value="penetration-testing">Web Application & API VAPT</option>
+                    <option value="cloud-security">Cloud Infrastructure Audit</option>
+                    <option value="digital-forensics">Digital Forensics & Evidence</option>
+                    <option value="incident-response">Incident Containment & Response</option>
+                    <option value="red-teaming">Adversary Emulation (Red Team)</option>
+                    <option value="other">Bespoke Security Architecture</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div className="space-y-2">
+                <label className="block font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] font-medium">
+                  Scope Overview & Target Environment
+                </label>
+                <textarea 
+                  name="message"
+                  required
+                  rows={4}
+                  className="w-full border border-[var(--border-hairline)] bg-[var(--bg-base)] rounded-none px-4 py-3 text-[var(--text-heading)] placeholder:text-[var(--text-muted)] text-sm focus:outline-none focus:border-[var(--text-heading)] transition-colors resize-none"
+                  placeholder="Outline your target domains, IP ranges, active compliance requirements (SOC 2, ISO 27001), or timeline constraints..."
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-[var(--border-hairline)]">
+                <span className="font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-wider">
+                  ALL INQUIRIES STRICTLY CONFIDENTIAL // NDA PROTECTED
+                </span>
+
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting || submitted}
+                  className="brand-btn-primary flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 !rounded-none"
+                >
+                  {isSubmitting ? (
+                    <span>TRANSMITTING...</span>
+                  ) : submitted ? (
+                    <>
+                      <span>TRANSMITTED</span>
+                      <Check className="w-4 h-4 text-emerald-400" />
+                    </>
+                  ) : (
+                    <>
+                      <span>TRANSMIT INQUIRY</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+
         </div>
       </div>
     </section>

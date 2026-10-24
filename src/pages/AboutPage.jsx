@@ -12,7 +12,7 @@ export const AboutPage = () => {
   }, []);
 
   return (
-    <main className="pt-48 pb-24 relative min-h-screen bg-transparent text-white">
+    <main className="pt-36 pb-24 relative min-h-screen bg-transparent text-white">
       <Helmet>
         <title>About Us | Defensive Cyber - Cybersecurity Experts</title>
         <meta name="description" content="Learn about Defensive Cyber, a team of cybersecurity experts dedicated to protecting your organization from advanced threats and vulnerabilities." />
@@ -22,7 +22,7 @@ export const AboutPage = () => {
         <div className="mb-8">
           <button 
             onClick={() => navigate(-1)}
-            className="group flex items-center justify-center text-sm font-bold text-white hover:text-primary transition-all backdrop-blur-md bg-white/5 border border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-white/10 px-6 py-2.5 rounded-full w-max cursor-pointer"
+            className="group flex items-center justify-center text-xs font-mono uppercase tracking-wider font-bold text-white hover:text-purple-300 transition-all backdrop-blur-md bg-[#0E0C1F] border border-purple-500/25 hover:border-purple-400 hover:bg-purple-600/20 px-5 py-2.5 rounded-none w-max cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Back
@@ -34,14 +34,21 @@ export const AboutPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold font-sans tracking-tight mb-16 text-center">
-            <span className="glossy-neon-white pb-1">About Defensive</span> <span className="glossy-neon-purple pb-1">Cyber</span>
-          </h1>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none border border-purple-500/25 bg-purple-500/10 mb-4">
+              <span className="text-xs font-mono font-medium tracking-widest text-purple-300 uppercase">
+                ORGANIZATIONAL PROFILE
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold font-space tracking-tight text-white">
+              ABOUT <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-200">DEFENSIVE CYBER</span>
+            </h1>
+          </div>
 
-          <div className="space-y-8 text-gray-300 font-sans text-lg leading-relaxed drop-shadow-sm">
+          <div className="space-y-8 text-gray-300 font-sans text-base md:text-lg leading-relaxed">
             
-            <section className="bg-black/40 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl">
-              <h2 className="text-xl md:text-2xl font-normal tracking-wide text-white mb-6" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+            <section className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 md:p-10 rounded-none border border-purple-500/15 shadow-xl">
+              <h2 className="text-xl md:text-2xl font-bold font-space text-white mb-6">
                 Cybersecurity: Defending What Matters Most
               </h2>
               <div className="space-y-4">
@@ -57,52 +64,52 @@ export const AboutPage = () => {
               </div>
             </section>
 
-            <section className="py-8">
-              <h2 className="text-xl md:text-2xl font-normal tracking-wide text-white mb-8 text-center" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
-                Our Expertise
+            <section className="py-6">
+              <h2 className="text-xl md:text-2xl font-bold font-space text-white mb-8 text-center">
+                Our Core Technical Domains
               </h2>
               
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 transition-colors">
-                  <h3 className="text-sm md:text-base font-normal tracking-wide text-white mb-4" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+                <div className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 rounded-none border border-purple-500/15 shadow-xl hover:border-purple-400/40 hover:bg-[#14112E] transition-all">
+                  <h3 className="text-base font-bold font-space text-purple-300 mb-3">
                     Digital Forensics
                   </h3>
-                  <p className="text-base">
+                  <p className="text-sm md:text-base leading-relaxed text-gray-300">
                     When security incidents occur, understanding <strong className="text-white">what happened, how it happened, and what to do next</strong> is critical. Our digital forensics services help organizations investigate cyber incidents, preserve digital evidence, identify root causes, and support informed decision-making during recovery.
                   </p>
                 </div>
 
-                <div className="bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 transition-colors">
-                  <h3 className="text-sm md:text-base font-normal tracking-wide text-white mb-4" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+                <div className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 rounded-none border border-purple-500/15 shadow-xl hover:border-purple-400/40 hover:bg-[#14112E] transition-all">
+                  <h3 className="text-base font-bold font-space text-purple-300 mb-3">
                     Cyber Threat Intelligence
                   </h3>
-                  <p className="text-base">
+                  <p className="text-sm md:text-base leading-relaxed text-gray-300">
                     Cyber threats evolve every day. We continuously analyze emerging attack techniques, threat actors, and security trends to provide organizations with meaningful intelligence that helps them strengthen their defenses before attacks become incidents.
                   </p>
                 </div>
 
-                <div className="bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 transition-colors">
-                  <h3 className="text-sm md:text-base font-normal tracking-wide text-white mb-4" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+                <div className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 rounded-none border border-purple-500/15 shadow-xl hover:border-purple-400/40 hover:bg-[#14112E] transition-all">
+                  <h3 className="text-base font-bold font-space text-purple-300 mb-3">
                     Incident Response
                   </h3>
-                  <p className="text-base">
+                  <p className="text-sm md:text-base leading-relaxed text-gray-300">
                     A rapid response can significantly reduce the impact of a cyberattack. We help organizations contain, investigate, and recover from security incidents through a structured and efficient response process, minimizing downtime and protecting critical business operations.
                   </p>
                 </div>
 
-                <div className="bg-black/40 backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 transition-colors">
-                  <h3 className="text-sm md:text-base font-normal tracking-wide text-white mb-4" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+                <div className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 rounded-none border border-purple-500/15 shadow-xl hover:border-purple-400/40 hover:bg-[#14112E] transition-all">
+                  <h3 className="text-base font-bold font-space text-purple-300 mb-3">
                     Reverse Engineering & Malware Analysis
                   </h3>
-                  <p className="text-base">
+                  <p className="text-sm md:text-base leading-relaxed text-gray-300">
                     Understanding malicious software is essential to building stronger defenses. Through detailed malware analysis and reverse engineering, we uncover how threats operate, identify indicators of compromise, and help organizations improve their detection and response capabilities.
                   </p>
                 </div>
               </div>
             </section>
 
-            <section className="bg-black/40 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl">
-              <h2 className="text-xl md:text-2xl font-normal tracking-wide text-white mb-6" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+            <section className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 md:p-10 rounded-none border border-purple-500/15 shadow-xl">
+              <h2 className="text-xl md:text-2xl font-bold font-space text-white mb-6">
                 Why Organizations Choose Defensive Cyber
               </h2>
               <div className="space-y-4">
@@ -115,16 +122,16 @@ export const AboutPage = () => {
               </div>
             </section>
 
-            <section className="bg-black/40 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl mt-12 text-center">
-              <h2 className="text-xl md:text-2xl font-normal tracking-wide text-white mb-4" style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}>
+            <section className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 md:p-10 rounded-none border border-purple-500/15 shadow-xl mt-12 text-center">
+              <h2 className="text-xl md:text-2xl font-bold font-space text-white mb-4">
                 Let's Build a More Secure Future
               </h2>
-              <p className="mb-6 max-w-2xl mx-auto">
+              <p className="mb-6 max-w-2xl mx-auto text-sm md:text-base">
                 Whether you're strengthening your security posture, responding to an incident, or looking for expert guidance in today's complex cyber landscape, <strong className="text-white">Defensive Cyber</strong> is here to support you.
               </p>
-              <p className="font-bold text-white text-lg bg-white/10 border border-white/20 inline-block px-6 py-3 rounded-xl">
-                Let's work together to protect your business, your data, and your digital future. Contact us today to learn how we can help.
-              </p>
+              <div className="font-mono text-sm uppercase tracking-wider text-purple-300 bg-purple-500/10 border border-purple-500/30 inline-block px-6 py-3 rounded-none">
+                Contact our specialized cybersecurity team today to fortify your digital infrastructure.
+              </div>
             </section>
 
           </div>

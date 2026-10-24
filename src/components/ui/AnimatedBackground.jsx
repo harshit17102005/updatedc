@@ -1,127 +1,32 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
+/**
+ * Editorial Geometric Grid Background with Subtle Ambient Bottom-Left Shade
+ * Light/Cream Mode: Soft golden ambient illumination from bottom-left
+ * Dark Mode: Soft purple ambient illumination from bottom-left
+ */
 export const AnimatedBackground = () => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-
-    let particles = [];
-    const spacing = 30; // Space between dots
-    let rows = Math.floor(height / spacing) + 4;
-    let cols = Math.floor(width / spacing) + 4;
-
-    // We'll create a grid of dots that animate in a wave
-    let time = 0;
-    
-    // Mouse interaction
-    let mouseX = width / 2;
-    let mouseY = height / 2;
-
-    const initParticles = () => {
-      particles = [];
-      rows = Math.floor(height / spacing) + 4;
-      cols = Math.floor(width / spacing) + 4;
-      for (let i = -2; i < cols; i++) {
-        for (let j = -2; j < rows; j++) {
-          const isGold = Math.random() > 0.3; // 70% gold, 30% purple
-          particles.push({
-            x: i * spacing,
-            y: j * spacing,
-            baseX: i * spacing,
-            baseY: j * spacing,
-            color: isGold ? '#d4af37' : '#c77dff'
-          });
-        }
-      }
-    };
-    initParticles();
-
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height);
-      
-      time += 0.02;
-
-      particles.forEach((p, index) => {
-        // Calculate distance to mouse for interactive effect
-        const dx = mouseX - p.baseX;
-        const dy = mouseY - p.baseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        // Wave calculation
-        const waveX = Math.sin(p.baseY * 0.01 + time) * 15;
-        const waveY = Math.cos(p.baseX * 0.01 + time) * 15;
-        
-        // Mouse repel effect
-        const repelRadius = 200;
-        const repelForce = Math.max(0, repelRadius - dist) / repelRadius;
-        const repelX = repelForce > 0 ? (dx / dist) * -40 * repelForce : 0;
-        const repelY = repelForce > 0 ? (dy / dist) * -40 * repelForce : 0;
-        
-        p.x = p.baseX + waveX + repelX;
-        p.y = p.baseY + waveY + repelY;
-
-        // Size changes based on wave
-        const size = Math.max(0.5, Math.sin(p.baseX * 0.02 + time) * 1.5 + 1.5);
-        
-        // Opacity based on wave
-        const opacity = Math.max(0.1, Math.sin(p.baseY * 0.02 + time) * 0.5 + 0.3);
-        
-        ctx.globalAlpha = opacity;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-
-        ctx.fillStyle = p.color;
-        ctx.fill();
-      });
-
-      requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    const handleResize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-      initParticles();
-    };
-    
-    const handleMouseMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
   return (
-    <div className="fixed inset-0 z-[-1] bg-black">
-      {/* Deep purple glow in the center fading into pure blackish shade on the sides */}
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none transition-colors duration-300">
+      {/* Ambient bottom-left illumination (golden in cream, purple in dark) */}
       <div 
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none transition-all duration-700"
         style={{
-          background: 'radial-gradient(ellipse at top center, rgba(90, 20, 150, 0.3) 0%, rgba(15, 5, 25, 0.5) 30%, rgba(0, 0, 0, 1) 60%)'
+          background: 'var(--bottom-left-ambient)'
         }}
       />
-      <div className="absolute inset-0 bg-cyber-grid opacity-[0.05]" />
-      <canvas ref={canvasRef} className="absolute inset-0 opacity-80" />
+
+      {/* Architectural geometric hairline grid */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)
+          `,
+          backgroundSize: '64px 64px'
+        }}
+      />
     </div>
   );
 };

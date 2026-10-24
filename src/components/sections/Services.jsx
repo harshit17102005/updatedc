@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import * as Icons from 'lucide-react';
@@ -11,117 +11,31 @@ const certifications = [
   {
     href: "https://www.credly.com/earner/earned/badge/f2de7353-342a-4e6f-88ea-c674116837f0",
     img: "/GIACCertificationForensicAnalyst.png",
-    title: "Forensic Analyst",
-    desc: "Expertise in uncovering digital evidence, analyzing cyber incidents, and preserving data integrity for investigations."
+    code: "GCFA // SANS FOR508",
+    title: "Certified Forensic Analyst",
+    desc: "Advanced threat hunting, enterprise memory analysis, forensic timeline reconstruction, and deep adversarial dwell-time identification."
   },
   {
     href: "https://www.credly.com/earner/earned/badge/1671a9b8-676e-4887-89e6-d35c73e747a8",
     img: "/GIACCertificationIncidentHandler.png",
-    title: "Incident Handler",
-    desc: "Proven ability to rapidly detect, contain, and recover from cyber incidents while minimizing business disruption."
+    code: "GCIH // SANS SEC504",
+    title: "Certified Incident Handler",
+    desc: "Adversarial exploit analysis, memory exploitation triage, malware containment, and post-breach operational recovery."
   },
   {
     href: "https://www.credly.com/earner/earned/badge/75006c8b-08f2-4ef4-bc1c-74b1676c85f2",
     img: "/GIACCertificationThreatIntelligence.png",
-    title: "Threat Intelligence",
-    desc: "Proactive identification of emerging cyber threats and delivery of actionable intelligence to strengthen security posture."
+    code: "GCTI // SANS SEC588",
+    title: "Threat Intelligence Analyst",
+    desc: "Strategic intelligence modeling, MITRE ATT&CK adversary mapping, zero-day threat correlation, and perimeter defense hardening."
   }
 ];
-
-const ServiceCard = ({ service, index, isAuthenticated, onEdit, onDelete }) => {
-  const cardRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  const handleTouchMove = (e) => {
-    if (!cardRef.current) return;
-    const touch = e.touches[0];
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top,
-    });
-  };
-
-  const IconComponent = Icons[service.icon] || Icons.Search;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="h-full relative group/card"
-    >
-      <div
-        ref={cardRef}
-        onMouseMove={handleMouseMove}
-        onTouchMove={handleTouchMove}
-        className="relative h-full p-[1px] rounded-2xl overflow-hidden group hover:shadow-[0_0_30px_rgba(0,245,255,0.2)] transition-shadow duration-500"
-      >
-        {/* Animated Gradient Border */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
-          style={{
-            background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 245, 255, 0.4), transparent 40%)`
-          }}
-        />
-        
-        {/* Inner Card - Liquid Glass Translucent Effect */}
-        <Link 
-          to={`/service/${service.slug}`}
-          onClick={() => window.scrollTo(0, 0)}
-          className="block relative h-full bg-black/30 backdrop-blur-sm p-8 rounded-2xl flex flex-col items-start gap-4 border border-white/10 shadow-xl transition-all duration-300 overflow-hidden"
-        >
-          {/* Subtle center purple glow */}
-          <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at center, rgba(90,20,150,0.2) 0%, transparent 60%)' }} />
-          
-          <div className="relative z-10 p-3 rounded-lg transition-colors border bg-white/10 border-white/20 group-hover:bg-white/20">
-            <IconComponent className="w-8 h-8 group-hover:text-glow text-accent" />
-          </div>
-          <h3 className="text-xl font-bold font-space text-white group-hover:text-primary transition-colors">
-            {service.title}
-          </h3>
-          <p className="text-white text-sm leading-relaxed">
-            {service.description}
-          </p>
-        </Link>
-      </div>
-
-      {isAuthenticated && (
-        <div className="absolute top-4 right-4 z-50 flex gap-2 opacity-0 group-hover/card:opacity-100 transition-opacity">
-          <button 
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onEdit(service); }}
-            className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-colors"
-          >
-            <Icons.Edit className="w-4 h-4" />
-          </button>
-          <button 
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(service._id); }}
-            className="p-2 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-full backdrop-blur-md transition-colors"
-          >
-            <Icons.Trash2 className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-    </motion.div>
-  );
-};
 
 export const Services = () => {
   const { isAuthenticated, token } = useAuth();
   const [services, setServices] = useState(defaultServices);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingService, setEditingService] = useState(null);
-  const scrollContainerRef = useRef(null);
 
   const loadServices = async () => {
     const data = await fetchServices();
@@ -143,130 +57,177 @@ export const Services = () => {
     }
   };
 
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
-
-  const hasSlider = services.length > 4;
-
   return (
-    <section id="services" className="pt-24 pb-12 relative z-10 bg-transparent">
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16 relative z-20">
-          <h2 className="text-3xl md:text-5xl font-extrabold font-sans tracking-tight mb-6 text-white">
-            <span className="glossy-neon-white pb-1">Core</span> <span className="glossy-neon-purple pb-1">Services</span>
-          </h2>
-          <p className="text-gray-300 font-medium text-base mb-8">
-            Comprehensive <strong className="text-white">cybersecurity services</strong>, including <strong className="text-white">penetration testing (VAPT)</strong>, <strong className="text-white">network security monitoring</strong>, and <strong className="text-white">compliance audits</strong>, tailored to protect your critical assets against the most sophisticated threats.
-          </p>
-
-          {isAuthenticated && (
-            <button
-              onClick={() => { setEditingService(null); setIsModalOpen(true); }}
-              className="mt-4 px-6 py-2.5 rounded-full cyber-button-solid text-sm font-bold flex items-center gap-2 mx-auto"
-            >
-              <Icons.Plus className="w-4 h-4" />
-              Add Service
-            </button>
-          )}
+    <section id="services" className="pt-14 pb-14 border-b border-[var(--border-hairline)] bg-[var(--bg-base)]">
+      <div className="container mx-auto px-6 md:px-12">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-8 border-b border-[var(--border-hairline)]">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="w-1.5 h-1.5 bg-[var(--text-heading)] rounded-none" />
+              <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] font-medium">
+                PRACTICE AREAS & CAPABILITIES
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[var(--text-heading)] md:whitespace-nowrap">
+              Core Technical Auditing Services.
+            </h2>
+          </div>
+          <div className="mt-4 md:mt-0 flex items-center gap-4">
+            {isAuthenticated && (
+              <button
+                onClick={() => { setEditingService(null); setIsModalOpen(true); }}
+                className="brand-btn-primary !py-2.5 !px-5 text-xs flex items-center gap-2"
+              >
+                <Icons.Plus className="w-3.5 h-3.5" />
+                Add Practice Area
+              </button>
+            )}
+          </div>
         </div>
 
-        {hasSlider ? (
-          <div className="relative group/slider">
-            {/* Left Arrow */}
-            <button 
-              onClick={scrollLeft}
-              className="absolute left-0 md:-left-6 top-1/2 -translate-y-1/2 z-30 p-2 text-white/50 hover:text-white bg-transparent hover:bg-white/10 rounded-full transition-all duration-300 backdrop-blur-sm"
-            >
-              <Icons.ChevronLeft className="w-8 h-8 md:w-10 md:h-10" />
-            </button>
+        {/* Architectural Services Directory (Clean Hairline Rows, No Bento Boxes) */}
+        <div className="divide-y divide-[var(--border-hairline)] border-t border-b border-[var(--border-hairline)]">
+          {services.map((service, index) => {
+            const IconComponent = Icons[service.icon] || Icons.Shield;
+            const numberFormatted = String(index + 1).padStart(2, '0');
 
-            <div 
-              ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-2"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {services.map((service, index) => (
-                <div key={service._id || index} className="flex-none w-full md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start relative">
-                  <ServiceCard 
-                    service={service} 
-                    index={index} 
-                    isAuthenticated={isAuthenticated}
-                    onEdit={(s) => { setEditingService(s); setIsModalOpen(true); }}
-                    onDelete={handleDelete}
-                  />
+            return (
+              <div 
+                key={service._id || index}
+                className="py-8 group transition-colors duration-200 hover:bg-[var(--bg-surface)] px-4 -mx-4"
+              >
+                <div className="grid lg:grid-cols-12 gap-6 items-center">
+                  
+                  {/* Col 1: Number & Icon */}
+                  <div className="lg:col-span-1 flex items-center gap-4">
+                    <span className="font-mono text-sm font-semibold text-[var(--text-muted)]">
+                      {numberFormatted}
+                    </span>
+                    <IconComponent className="w-5 h-5 text-[var(--text-heading)] opacity-80" strokeWidth={1.75} />
+                  </div>
+
+                  {/* Col 2: Title */}
+                  <div className="lg:col-span-4">
+                    <Link
+                      to={`/service/${service.slug}`}
+                      className="font-serif text-xl sm:text-2xl font-bold text-[var(--text-heading)] hover:opacity-80 transition-opacity"
+                    >
+                      {service.title}
+                    </Link>
+                  </div>
+
+                  {/* Col 3: Description */}
+                  <div className="lg:col-span-5">
+                    <p className="font-sans text-sm text-[var(--text-body)] leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  {/* Col 4: Action & Admin */}
+                  <div className="lg:col-span-2 flex items-center justify-end gap-3">
+                    <Link
+                      to={`/service/${service.slug}`}
+                      className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--text-heading)] inline-flex items-center gap-1.5 group-hover:translate-x-1 transition-transform"
+                    >
+                      <span>Explore</span>
+                      <Icons.ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+
+                    {isAuthenticated && (
+                      <div className="flex items-center gap-1 ml-4 border-l border-[var(--border-hairline)] pl-3">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setEditingService(service); setIsModalOpen(true); }}
+                          className="p-1.5 border border-[var(--border-hairline)] hover:bg-[var(--text-heading)] hover:text-[var(--bg-base)] text-[var(--text-heading)] rounded-none transition-colors"
+                          title="Edit Service"
+                        >
+                          <Icons.Edit className="w-3.5 h-3.5" />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(service._id); }}
+                          className="p-1.5 border border-red-500/30 text-red-600 hover:bg-red-600 hover:text-white rounded-none transition-colors"
+                          title="Delete Service"
+                        >
+                          <Icons.Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
                 </div>
-              ))}
-            </div>
+              </div>
+            );
+          })}
+        </div>
 
-            {/* Right Arrow */}
-            <button 
-              onClick={scrollRight}
-              className="absolute right-0 md:-right-6 top-1/2 -translate-y-1/2 z-30 p-2 text-white/50 hover:text-white bg-transparent hover:bg-white/10 rounded-full transition-all duration-300 backdrop-blur-sm"
-            >
-              <Icons.ChevronRight className="w-8 h-8 md:w-10 md:h-10" />
-            </button>
+        {/* Why Us / Credentials Registry */}
+        <div id="why-us" className="mt-14 sm:mt-16 scroll-mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-8 border-b border-[var(--border-hairline)]">
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 bg-[var(--text-heading)] rounded-none" />
+                <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] font-medium">
+                  VERIFIED ACCREDITATIONS & METHODOLOGIES
+                </span>
+              </div>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[var(--text-heading)] md:whitespace-nowrap">
+                Principal-Led SANS & GIAC Auditing.
+              </h2>
+            </div>
+            <p className="mt-4 md:mt-0 font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] max-w-xs text-right">
+              Every audit is performed directly by certified senior engineers, not outsourced scanners.
+            </p>
           </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
-            {services.map((service, index) => (
-              <ServiceCard 
-                key={service._id || index} 
-                service={service} 
-                index={index} 
-                isAuthenticated={isAuthenticated}
-                onEdit={(s) => { setEditingService(s); setIsModalOpen(true); }}
-                onDelete={handleDelete}
-              />
+
+          {/* GIAC Credentials Gallery (Museum Spacing, Real Verification Links) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {certifications.map((cert, idx) => (
+              <a 
+                key={idx}
+                href={cert.href} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="border border-[var(--border-hairline)] bg-[var(--bg-card)] p-8 sm:p-10 rounded-none flex flex-col justify-between hover:border-[var(--text-heading)] transition-colors group"
+                aria-label={`Verify GIAC Certification ${cert.title}`}
+              >
+                <div>
+                  <div className="flex justify-between items-start mb-8">
+                    <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] font-medium">
+                      {cert.code}
+                    </span>
+                    <Icons.ExternalLink className="w-4 h-4 text-[var(--text-muted)] group-hover:text-[var(--text-heading)] transition-colors" />
+                  </div>
+
+                  <div className="flex justify-center mb-8">
+                    <img 
+                      src={cert.img} 
+                      alt={`GIAC Certification ${cert.title}`} 
+                      className="w-28 h-28 object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+
+                  <h3 className="font-serif text-lg font-bold text-[var(--text-heading)] mb-3">
+                    {cert.title}
+                  </h3>
+
+                  <p className="font-sans text-xs text-[var(--text-body)] leading-relaxed">
+                    {cert.desc}
+                  </p>
+                </div>
+
+                <div className="pt-6 mt-6 border-t border-[var(--border-hairline)] font-mono text-[11px] uppercase tracking-widest text-[var(--text-heading)] font-semibold flex items-center justify-between">
+                  <span>Verify Credly Issuer</span>
+                  <span className="text-[var(--text-muted)]">SANS GIAC</span>
+                </div>
+              </a>
             ))}
           </div>
-        )}
 
-        <div id="why-us" className="mt-24 text-center max-w-3xl mx-auto relative z-20 scroll-mt-24">
-          <h2 className="text-3xl md:text-5xl font-extrabold font-sans tracking-tight mb-6 text-white">
-            <span className="glossy-neon-white pb-1">Why</span> <span className="glossy-neon-purple pb-1">Us</span>
-          </h2>
-          <p className="text-gray-300 font-medium text-base mb-12">
-            Elite certifications. Battle-tested expertise. Uncompromising protection for your critical assets.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto relative z-20 mt-16">
-          {certifications.map((cert, idx) => (
-            <a 
-              key={idx}
-              href={cert.href} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group bg-black/30 backdrop-blur-sm p-8 rounded-2xl flex flex-col items-center text-center border border-white/10 hover:border-white/20 transition-colors shadow-xl block"
-              aria-label={`View GIAC Certification ${cert.title} Credential`}
-            >
-              <div className="inline-block transition-transform duration-300 group-hover:scale-110 mb-6">
-                <img 
-                  src={cert.img} 
-                  alt={`GIAC Certification ${cert.title}`} 
-                  className="w-32 h-32 md:w-40 md:h-40 object-contain"
-                />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{cert.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {cert.desc}
-              </p>
-            </a>
-          ))}
-        </div>
-        
-        <div className="mt-32 relative z-20">
+          {/* Stats Bar */}
           <WhyUsStats />
         </div>
+
       </div>
 
       <ServiceFormModal 

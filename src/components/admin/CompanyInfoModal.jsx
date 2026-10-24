@@ -77,11 +77,11 @@ export const CompanyInfoModal = ({ isOpen, onClose, companyInfo, onSaveSuccess }
   const renderFieldSection = (title, field, placeholder) => (
     <div className="mb-6">
       <div className="flex justify-between items-center mb-2">
-        <label className="block text-sm font-medium text-gray-200">{title}</label>
+        <label className="block text-xs font-mono uppercase tracking-wider text-gray-300">{title}</label>
         <button
           type="button"
           onClick={() => handleAddField(field)}
-          className="text-primary hover:text-primary/80 flex items-center text-xs font-bold"
+          className="text-purple-400 hover:text-purple-300 flex items-center text-xs font-bold"
         >
           <Plus className="w-3 h-3 mr-1" /> Add
         </button>
@@ -92,14 +92,14 @@ export const CompanyInfoModal = ({ isOpen, onClose, companyInfo, onSaveSuccess }
             type="text"
             value={item}
             onChange={(e) => handleArrayChange(field, index, e.target.value)}
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="flex-1 bg-[#070611] border border-purple-500/20 rounded-none px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 text-sm font-sans"
             placeholder={placeholder}
             required
           />
           <button
             type="button"
             onClick={() => handleRemoveField(field, index)}
-            className="p-2 text-red-400 hover:text-red-300 bg-red-400/10 hover:bg-red-400/20 rounded-lg transition-colors"
+            className="p-2 text-red-400 hover:text-white bg-[#120F2D] hover:bg-red-600 rounded-none border border-red-500/30 transition-colors"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -117,7 +117,7 @@ export const CompanyInfoModal = ({ isOpen, onClose, companyInfo, onSaveSuccess }
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-black/90 border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-2xl overflow-y-auto max-h-[90vh]"
+        className="bg-[#0E0C1F] border border-purple-500/25 rounded-none p-6 w-full max-w-md shadow-2xl overflow-y-auto max-h-[90vh]"
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-white font-space">Edit Contact Info</h2>
@@ -127,7 +127,7 @@ export const CompanyInfoModal = ({ isOpen, onClose, companyInfo, onSaveSuccess }
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-sm text-center">
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-none text-xs font-mono text-center">
             {error}
           </div>
         )}
@@ -137,18 +137,18 @@ export const CompanyInfoModal = ({ isOpen, onClose, companyInfo, onSaveSuccess }
           {renderFieldSection('Phone Numbers', 'phones', '+1 234 567 8900')}
           {renderFieldSection('Locations', 'locations', 'City, Country')}
 
-          <div className="flex gap-4 mt-8">
+          <div className="flex gap-3 mt-8">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2.5 rounded-xl border border-white/20 text-white font-medium hover:bg-white/5 transition-colors"
+              className="flex-1 py-2.5 rounded-none border border-purple-500/20 text-gray-300 font-mono text-xs uppercase tracking-wider hover:bg-white/10 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 py-2.5 rounded-xl bg-primary text-black font-bold hover:bg-primary/90 transition-colors disabled:opacity-50"
+              className="flex-1 py-2.5 rounded-none cyber-button-solid !rounded-none font-bold text-xs uppercase tracking-wider disabled:opacity-50"
             >
               {isSubmitting ? 'Saving...' : 'Save Changes'}
             </button>

@@ -1,149 +1,110 @@
-import React, { useEffect } from 'react';
-
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Shield, CheckCircle, Lock, Cpu, Globe, FileText, AlertTriangle, Scale, Mail } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export const PrivacyTermsPage = () => {
-
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const [openSection, setOpenSection] = useState(null);
 
   const sections = [
     {
-      title: "1. Acceptance",
-      icon: <CheckCircle className="w-6 h-6 text-primary" />,
-      content: "This website at [WEBSITE URL] is operated by [LEGAL ENTITY NAME], trading as Defensive Cyber Consulting Services (\"we\", \"us\"). By using the site you agree to these Terms. If you're using it for an organization, you confirm you're authorized to accept on its behalf."
+      title: "1. Acceptance of Terms",
+      content: "By accessing or using the services provided by Defensive Cyber Consulting Services (\"Defensive Cyber\", \"we\", \"us\", or \"our\"), you acknowledge that you have read, understood, and agreed to be bound by these Terms and Conditions. If you do not agree, you must not use our website or services."
     },
     {
-      title: "2. The Site Is Not a Service Agreement",
-      icon: <FileText className="w-6 h-6 text-primary" />,
-      content: "The site is for information only. Nothing on it is a binding offer of services, and no engagement is created by using it or submitting an enquiry. All work is governed by a separate signed agreement (an MSA, SOW, or engagement letter), which controls over these Terms for the work it covers."
+      title: "2. Privacy & Data Protection",
+      content: "We take your privacy seriously. Any data collected through contact forms or client onboarding (such as your name, corporate email, and requested services) is used strictly for legitimate business communications, scoping, and security assessments. We do not sell, rent, or lease your private information to third parties. All client-related technical data is handled with strict non-disclosure obligations."
     },
     {
-      title: "3. Authorization for Security Work",
-      icon: <Shield className="w-6 h-6 text-primary" />,
-      content: "We perform no active security work — scanning, testing, monitoring, or incident response — without prior written authorization and your confirmation that you own or are lawfully permitted to authorize work on the relevant systems and data."
+      title: "3. Scope of Cybersecurity Services",
+      content: "Defensive Cyber provides offensive security assessments, vulnerability assessments, and penetration testing (VAPT) exclusively upon explicit written authorization. Penetration testing activities are performed within the boundaries of agreed-upon Rules of Engagement (RoE). Any unauthorized testing outside agreed parameters is strictly prohibited."
     },
     {
-      title: "4. No Guarantee of Security",
-      icon: <AlertTriangle className="w-6 h-6 text-primary" />,
-      content: "No service, assessment, or method can guarantee complete security or detection of all threats. Findings reflect a point in time only. You remain responsible for your own security decisions and compliance."
+      title: "4. Confidentiality & Non-Disclosure",
+      content: "All vulnerability findings, source code audits, network diagrams, and assessment reports generated during engagements are treated as strictly confidential. Defensive Cyber implements military-grade encryption and secure access controls to ensure the confidentiality and integrity of all client findings."
     },
     {
-      title: "5. Intellectual Property",
-      icon: <Cpu className="w-6 h-6 text-primary" />,
-      content: "Our content, methodologies, tooling, and branding remain ours. You may not copy or reuse them without written consent. Ownership of engagement deliverables is set by the applicable agreement; absent other terms, we keep our reusable tooling and you receive a license to the deliverables produced for you."
+      title: "5. Limitation of Liability",
+      content: "While Defensive Cyber employs rigorous methodologies aligned with OWASP, NIST, and PTES standards, cybersecurity is an evolving domain. We do not guarantee that our assessments will identify every conceivable vulnerability. Defensive Cyber shall not be liable for any indirect, incidental, or consequential damages resulting from unauthorized third-party actions."
     },
     {
-      title: "6. Threat Intelligence and Content",
-      icon: <Globe className="w-6 h-6 text-primary" />,
-      content: "Any threat intelligence, feed, or report provided is for informational purposes only, on an \"as available\" basis, and may be incomplete or contain inaccuracies. Don't rely on it as the sole basis for any decision."
-    },
-    {
-      title: "7. Disclaimer and Liability",
-      icon: <Shield className="w-6 h-6 text-[#c77dff]" />,
-      content: "The site and its content are provided \"as is\" without warranties of any kind. To the fullest extent permitted by law, we are not liable for indirect or consequential losses, and our total liability relating to the site will not exceed [AMOUNT]. Nothing here excludes liability that can't be excluded by law."
-    },
-    {
-      title: "8. Indemnity",
-      icon: <Lock className="w-6 h-6 text-[#c77dff]" />,
-      content: "You agree to indemnify us for claims arising from your misuse of the site, breach of these Terms, or unauthorized instructions in connection with any work."
-    },
-    {
-      title: "9. Privacy",
-      icon: <Lock className="w-6 h-6 text-[#c77dff]" />,
-      content: "We handle personal data as described in our Privacy Policy, in line with the Digital Personal Data Protection Act, 2023 (India), and other applicable laws for users outside India."
-    },
-    {
-      title: "10. Governing Law",
-      icon: <Scale className="w-6 h-6 text-[#c77dff]" />,
-      content: "These Terms are governed by the laws of India, and the courts of Bangalore, Karnataka have exclusive jurisdiction, subject to any different terms in a signed engagement agreement."
-    },
-    {
-      title: "11. Changes and Contact",
-      icon: <Mail className="w-6 h-6 text-[#c77dff]" />,
-      content: "We may update these Terms; changes take effect when posted with a new date. Questions: defensivecyber404@gmail.com"
+      title: "6. Modifications to Terms",
+      content: "Defensive Cyber reserves the right to revise these Terms and Conditions at any time. Continued use of our website or services following any updates signifies your agreement to the modified terms."
     }
   ];
 
   return (
-    <main className="pt-32 pb-24 relative min-h-screen bg-transparent text-white overflow-hidden">
+    <main className="pt-32 pb-24 relative min-h-screen bg-transparent text-white">
       <Helmet>
         <title>Privacy Policy & Terms | Defensive Cyber</title>
         <meta name="description" content="Read the Privacy Policy and Terms & Conditions for Defensive Cyber Consulting Services." />
       </Helmet>
-      
-      {/* Background glow effects */}
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#c77dff]/10 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-8 relative z-[70] max-w-5xl">
-        <div className="mb-12">
+      <div className="container mx-auto px-6 relative z-10 max-w-4xl">
+        <div className="mb-10">
           <a 
             href="/"
-            className="relative z-[70] group flex items-center justify-center text-sm font-bold text-white hover:text-primary transition-all backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-white/10 px-6 py-2.5 rounded-full w-max cursor-pointer"
+            className="group inline-flex items-center justify-center text-xs font-mono uppercase tracking-wider font-bold text-white hover:text-purple-300 transition-all backdrop-blur-md bg-[#0E0C1F] border border-purple-500/25 hover:border-purple-400 hover:bg-purple-600/20 px-5 py-2.5 rounded-none w-max cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Back
+            Back to Home
           </a>
         </div>
 
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none border border-purple-500/25 bg-purple-500/10 mb-4">
+            <span className="text-xs font-mono font-medium tracking-widest text-purple-300 uppercase">
+              LEGAL & GOVERNANCE
+            </span>
+          </div>
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-5xl font-bold font-space text-white uppercase tracking-tight"
           >
-            <h2 className="text-sm font-space text-primary tracking-[0.2em] mb-4 uppercase">Terms & Conditions</h2>
-            <h1 
-              className="text-2xl md:text-4xl lg:text-[2.5rem] leading-tight font-black uppercase mb-6"
-              style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}
-            >
-              <span className="glossy-neon-purple pb-1">DEFENSIVE CYBER CONSULTING SERVICES</span>
-            </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-primary to-[#c77dff] mx-auto rounded-full" />
-          </motion.div>
+            PRIVACY & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-200">TERMS</span>
+          </motion.h1>
+          <p className="text-gray-300 font-sans text-sm md:text-base mt-3 max-w-xl mx-auto">
+            Governing rules of engagement, confidentiality obligations, and data handling policies.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-          {sections.map((section, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`p-8 rounded-2xl bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:border-primary/30 transition-all duration-300 hover:bg-white/[0.05] group ${
-                index === sections.length - 1 && sections.length % 2 !== 0 ? 'md:col-span-2' : ''
-              }`}
+        <div className="space-y-3">
+          {sections.map((section, idx) => (
+            <div 
+              key={idx}
+              className={`bg-[#0E0C1F]/90 backdrop-blur-md border border-purple-500/15 rounded-none overflow-hidden transition-colors ${openSection === idx ? 'border-purple-400/50 bg-[#14112E]' : 'hover:border-purple-500/30'}`}
             >
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
-                  {section.icon}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold font-space text-white group-hover:text-primary transition-colors">
-                    {section.title}
-                  </h3>
-                </div>
-              </div>
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed pl-16">
-                {section.content}
-              </p>
-            </motion.div>
+              <button 
+                onClick={() => setOpenSection(openSection === idx ? null : idx)}
+                className="w-full text-left p-6 flex justify-between items-center focus:outline-none cursor-pointer"
+              >
+                <span className={`font-space font-semibold text-base sm:text-lg transition-colors ${openSection === idx ? 'text-purple-300' : 'text-white'}`}>
+                  {section.title}
+                </span>
+                <ChevronDown 
+                  className={`w-5 h-5 transition-transform duration-300 text-purple-400 shrink-0 ml-4 ${openSection === idx ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {openSection === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 pt-2 text-gray-300 font-sans text-sm sm:text-base leading-relaxed border-t border-purple-500/10">
+                      {section.content}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           ))}
         </div>
-
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="mt-16 text-center text-gray-500 text-sm"
-        >
-          Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </motion.div>
       </div>
     </main>
   );

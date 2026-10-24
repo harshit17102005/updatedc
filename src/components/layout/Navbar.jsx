@@ -1,228 +1,162 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.classList.add('dark');
-  }, []);
-
-  const leftLinks = [
+  const navLinks = [
     { name: 'Services', href: '/#services' },
-    { name: 'Why Us', href: '/#why-us' },
-  ];
-  const rightLinks = [
-    { name: 'Case Studies', href: '/#cases' },
-    { name: 'FAQ', href: '/faq' },
+    { name: 'Practices & Standards', href: '/#why-us' },
+    { name: 'Engagements', href: '/#cases' },
+    { name: 'Inquiries (FAQ)', href: '/faq' },
   ];
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed z-50 transition-all duration-300 left-4 right-4 lg:left-12 lg:right-12 rounded-2xl border ${scrolled
-        ? 'top-2 py-3 bg-white/80 dark:bg-black/40 backdrop-blur-xl border-gray-200/60 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)]'
-        : 'top-2 py-5 bg-white/60 dark:bg-black/10 backdrop-blur-lg border-gray-200/50 dark:border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-lg'
-        }`}
-    >
-      <div className="container mx-auto px-6 md:px-12 flex justify-between md:justify-center items-center relative h-14">
-        {/* Top Left Corner */}
-        <div className="absolute left-6 md:left-12 flex items-center h-full">
-          <Link to="/" className="font-space flex items-center gap-3 tracking-[4px] hover:tracking-[6px] transition-all duration-500 ease-out group">
-            <span className="text-lg md:text-xl font-bold bg-gradient-to-b from-yellow-200 via-yellow-500 to-yellow-700 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
-              DEFENSIVE
+    <header className="fixed top-0 left-0 right-0 z-50 transition-colors duration-200 bg-[var(--nav-bg)] backdrop-blur-md border-b border-[var(--border-hairline)]">
+      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center h-20">
+        
+        {/* Brand / Logo */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <img
+            src="/middle-logo-dark.png"
+            alt="Defensive Cyber Insignia"
+            className="w-8 h-8 object-contain dark:invert-0 opacity-90 group-hover:opacity-100 transition-opacity"
+          />
+          <div className="flex flex-col">
+            <span className="font-serif font-bold text-lg md:text-xl tracking-tight text-[var(--text-heading)] leading-none">
+              DEFENSIVE CYBER
             </span>
-            <span className="text-lg md:text-xl font-medium bg-gradient-to-b from-white via-gray-300 to-gray-500 bg-clip-text text-transparent drop-shadow-sm dark:drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
-              CYBER
+            <span className="font-mono text-[10px] tracking-widest text-[var(--text-muted)] uppercase mt-0.5">
+              SECURITY AUDIT & ADVISORY
             </span>
-          </Link>
-        </div>
-
-        {/* Center Content (Desktop) */}
-        <div className="hidden md:flex items-center w-full justify-center gap-2 mx-48">
-          <div className="flex gap-6 flex-1 justify-end">
-            {leftLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="relative text-[15px] font-medium text-white drop-shadow-md hover:text-primary transition-colors group whitespace-nowrap"
-              >
-                {link.name}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
           </div>
+        </Link>
 
-          {/* Logo */}
-          <Link to="/" className="relative flex items-center justify-center flex-shrink-0 z-10 mt-12 group">
-            {/* Hexagon Background Layer */}
-            <div
-              className={`
-                    absolute
-                    left-[50.9%]
-                    top-[37%]
-                    -translate-x-1/2
-                    -translate-y-1/2
-                    pointer-events-none
-                    z-0
-                    flex
-                    items-center
-                    justify-center
-                    transition-all
-                    duration-300
-                  `}
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-8" aria-label="Main Navigation">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="font-mono text-xs uppercase tracking-widest text-[var(--text-body)] hover:text-[var(--text-heading)] transition-colors py-1 relative group"
             >
+              {link.name}
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[var(--text-heading)] transition-all duration-200 group-hover:w-full" />
+            </a>
+          ))}
+        </nav>
 
-              {/* Glassy backdrop (CSS clip-path) */}
-              <div
-                className="absolute w-[110px] h-[127px] bg-transparent backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.15)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.8)]"
-                style={{ clipPath: 'url(#rounded-hex-clip)' }}
-              />
+        {/* Right Corner Actions */}
+        <div className="hidden md:flex items-center gap-4">
+          {/* Minimalist Hard Square Theme Switcher */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme palette"
+            title={theme === 'dark' ? 'Switch to Warm Slate Cream' : 'Switch to Charcoal Obsidian'}
+            className="px-3 py-2 border border-[var(--border-hairline)] bg-[var(--bg-base)] text-[var(--text-body)] hover:text-[var(--text-heading)] hover:border-[var(--text-heading)] transition-all font-mono text-xs flex items-center gap-2 cursor-pointer rounded-none"
+          >
+            {theme === 'dark' ? (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+                <span className="tracking-wider uppercase text-[11px]">CREAM</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3.5 h-3.5" />
+                <span className="tracking-wider uppercase text-[11px]">DARK</span>
+              </>
+            )}
+          </button>
 
-              {/* Hexagon Border (SVG) with Gloss Effect */}
-              <svg
-                viewBox="0 0 100 115.47"
-                className="w-[110px] h-[127px] absolute drop-shadow-[0_0_15px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] text-gray-900 dark:text-white"
-              >
-                <clipPath id="rounded-hex-clip" clipPathUnits="objectBoundingBox">
-                  <path d="M 0.400,0.117 Q 0.500,0.067 0.600,0.117 L 0.833,0.233 Q 0.933,0.283 0.933,0.383 L 0.933,0.617 Q 0.933,0.716 0.833,0.767 L 0.600,0.883 Q 0.500,0.933 0.400,0.883 L 0.167,0.767 Q 0.067,0.716 0.067,0.617 L 0.067,0.383 Q 0.067,0.283 0.167,0.233 Z" />
-                </clipPath>
-
-                {/* Boundary that blends with the theme */}
-                <path
-                  d="M 40.00,13.51 Q 50.00,7.73 60.00,13.51 L 83.30,26.96 Q 93.30,32.73 93.30,44.28 L 93.30,71.19 Q 93.30,82.73 83.30,88.51 L 60.00,101.96 Q 50.00,107.73 40.00,101.96 L 16.70,88.51 Q 6.70,82.73 6.70,71.19 L 6.70,44.28 Q 6.70,32.73 16.70,26.96 Z"
-                  fill="transparent"
-                  stroke="url(#hex-boundary)"
-                  strokeWidth="1.5"
-                />
-
-                <defs>
-                  {/* Blending boundary gradient using currentColor */}
-                  <linearGradient id="hex-boundary" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="currentColor" stopOpacity="0.8" />
-                    <stop offset="30%" stopColor="currentColor" stopOpacity="0" />
-                    <stop offset="70%" stopColor="currentColor" stopOpacity="0" />
-                    <stop offset="100%" stopColor="currentColor" stopOpacity="0.8" />
-                  </linearGradient>
-                </defs>
-              </svg>
-
-            </div>
-
-            <img
-              src="/middle-logo-dark.png"
-              alt="Defensive Cyber Logo"
-              className="w-auto object-contain transition-all duration-300 relative z-10 h-40"
-            />
-          </Link>
-
-          <div className="flex gap-6 flex-1 justify-start">
-            {rightLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="relative text-[15px] font-medium text-white drop-shadow-md hover:text-primary transition-colors group whitespace-nowrap"
-              >
-                {link.name}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Right Corner (Desktop) */}
-        <div className="hidden md:flex absolute right-6 md:right-12 items-center gap-6 h-full">
           {isAuthenticated ? (
             <button
               onClick={() => logout()}
-              className="relative px-6 py-2 rounded-full overflow-hidden group border border-red-500/50 bg-red-500/10 backdrop-blur-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 shadow-sm"
+              className="px-4 py-2 border border-red-700/40 bg-red-950/20 text-red-700 dark:text-red-400 hover:bg-red-700 hover:text-white transition-all text-xs font-mono font-medium uppercase tracking-wider cursor-pointer rounded-none"
             >
-              <span className="relative z-10 text-sm font-bold tracking-wide text-red-500 dark:text-red-400 group-hover:text-white transition-colors">
-                Admin (Logout)
-              </span>
+              Logout Admin
             </button>
           ) : (
             <a
               href="/#contact"
-              className="relative px-6 py-2 rounded-full overflow-hidden group border border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-md transition-all duration-300 hover:bg-blue-600 hover:border-blue-600 shadow-[0_4px_15px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_15px_rgba(0,0,0,0.3)]"
+              className="cyber-button-solid !rounded-none !py-2.5 !px-5 text-xs tracking-wider"
             >
-              <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 dark:from-white/15 to-transparent pointer-events-none group-hover:opacity-50 transition-opacity" />
-              <span className="relative z-10 text-sm font-bold tracking-wide text-gray-800 dark:font-medium dark:text-gray-200 group-hover:text-white transition-colors">
-                Contact Us
-              </span>
+              Engage Us
             </a>
           )}
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-gray-700 dark:text-gray-300 hover:text-primary transition-colors ml-auto z-10"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile Toggle Button */}
+        <div className="flex items-center gap-3 md:hidden">
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="p-2 border border-[var(--border-hairline)] text-[var(--text-heading)] rounded-none"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
+          </button>
+
+          <button
+            className="p-2 border border-[var(--border-hairline)] text-[var(--text-heading)] rounded-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-b border-primary/20 overflow-hidden"
-            style={{
-              background: 'rgba(0,0,0,0.92)',
-              backdropFilter: 'blur(20px)',
-            }}
+            className="md:hidden border-t border-[var(--border-hairline)] bg-[var(--bg-base)] px-6 py-6"
           >
-            <div className="flex flex-col items-center py-6 gap-4">
-              {[...leftLinks, ...rightLinks].map((link) => (
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
+                  className="font-mono text-sm uppercase tracking-widest text-[var(--text-body)] hover:text-[var(--text-heading)] py-2 border-b border-[var(--border-hairline)]"
                 >
                   {link.name}
                 </a>
               ))}
-              <div className="flex items-center gap-6 mt-4">
+              <div className="pt-4">
                 {isAuthenticated ? (
                   <button
                     onClick={() => {
                       logout();
                       setMobileMenuOpen(false);
                     }}
-                    className="relative px-6 py-2 rounded-full overflow-hidden group border border-red-500/50 bg-red-500/10 backdrop-blur-md transition-all duration-300 hover:bg-red-600 hover:border-red-600 shadow-lg text-center"
+                    className="w-full py-3 border border-red-700 text-red-600 font-mono text-xs uppercase tracking-wider rounded-none"
                   >
-                    <span className="relative z-10 text-sm font-medium tracking-wide text-red-400 group-hover:text-white transition-colors">
-                      Logout Admin
-                    </span>
+                    Logout Admin
                   </button>
                 ) : (
                   <a
                     href="/#contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="relative px-6 py-2 rounded-full overflow-hidden group border border-gray-300/50 dark:border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:bg-blue-600 hover:border-blue-600 shadow-lg text-center"
+                    className="w-full cyber-button-solid text-center block !py-3"
                   >
-                    <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/15 to-transparent pointer-events-none group-hover:opacity-50 transition-opacity" />
-                    <span className="relative z-10 text-sm font-medium tracking-wide text-gray-800 dark:text-gray-200 group-hover:text-white transition-colors">
-                      Contact Us
-                    </span>
+                    Engage Us
                   </a>
                 )}
               </div>
@@ -230,6 +164,6 @@ export const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 };

@@ -1,102 +1,121 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import * as Icons from 'lucide-react';
-import { fetchServiceById } from '../utils/blogStore';
+import { fetchServices, defaultServices } from '../utils/blogStore';
+import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 
 export const ServiceDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [service, setService] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const loadService = async () => {
-      setIsLoading(true);
-      const data = await fetchServiceById(id);
-      setService(data);
-      setIsLoading(false);
+    const loadData = async () => {
+      try {
+        const services = await fetchServices();
+        const found = (services || defaultServices).find(s => s.slug === id);
+        setService(found);
+      } catch (e) {
+        const found = defaultServices.find(s => s.slug === id);
+        setService(found);
+      } finally {
+        setLoading(false);
+      }
     };
-    loadService();
+    loadData();
   }, [id]);
 
-  if (isLoading) {
+  if (loading) {
     return (
-      <div className="pt-32 pb-24 min-h-screen flex flex-col items-center justify-center text-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
-        <p className="text-gray-400 font-medium tracking-wider animate-pulse">Loading service...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center text-white bg-transparent">
+        <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-none animate-spin mb-4" />
+        <p className="font-mono text-xs uppercase tracking-widest text-purple-300">Loading Assessment Specs...</p>
       </div>
     );
   }
 
   if (!service) {
     return (
-      <div className="pt-32 pb-24 min-h-screen flex flex-col items-center justify-center text-white">
-        <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
-        <button onClick={() => navigate('/')} className="text-primary hover:underline font-bold">
+      <div className="min-h-screen flex flex-col items-center justify-center text-white bg-transparent">
+        <h2 className="text-2xl font-bold font-space mb-4">Capability Not Found</h2>
+        <button 
+          onClick={() => navigate('/')} 
+          className="cyber-button !rounded-none text-xs uppercase tracking-wider font-bold"
+        >
           Return Home
         </button>
       </div>
     );
   }
 
-  // Split title for styling (last word in purple)
-  const words = service.title.split(' ');
-  const lastWord = words.pop();
-  const firstPart = words.join(' ');
   const IconComponent = Icons[service.icon] || Icons.Search;
 
   return (
-    <main className="pt-24 pb-24 relative min-h-screen bg-transparent">
+    <main className="pt-32 pb-24 relative min-h-screen bg-transparent text-white">
+      <Helmet>
+        <title>{`${service.title} | Defensive Cyber Services`}</title>
+        <meta name="description" content={service.description} />
+      </Helmet>
+
       <div className="container mx-auto px-6 relative z-10">
-        
         <button 
           onClick={(e) => {
             e.preventDefault();
             navigate(-1);
           }}
-          className="relative z-[60] mt-12 mb-8 cursor-pointer inline-flex items-center text-sm font-bold text-white hover:text-primary transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 backdrop-blur-sm bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] px-5 py-2 rounded-full"
+          className="group inline-flex items-center text-xs font-mono uppercase tracking-wider font-bold text-white hover:text-purple-300 transition-all backdrop-blur-md bg-[#0E0C1F] border border-purple-500/25 hover:border-purple-400 hover:bg-purple-600/20 px-5 py-2.5 rounded-none cursor-pointer mb-8"
         >
-          <Icons.ArrowLeft className="w-4 h-4 mr-2" />
+          <Icons.ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back
         </button>
 
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="inline-block p-4 rounded-2xl bg-white/5 border border-white/10 mb-6 backdrop-blur-sm"
+              className="inline-block p-4 rounded-none bg-[#0E0C1F] border border-purple-500/25 mb-6 backdrop-blur-sm"
             >
-              <IconComponent className="w-12 h-12 text-primary drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+              <IconComponent className="w-10 h-10 text-purple-400" />
             </motion.div>
             
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-2xl md:text-4xl font-black uppercase mb-6"
-              style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}
+              className="text-3xl md:text-5xl font-bold font-space uppercase mb-4 tracking-tight"
             >
-              {firstPart && <span className="glossy-neon-white pb-1 mr-3">{firstPart}</span>}
-              <span className="glossy-neon-purple pb-1">{lastWord}</span>
+              {service.title}
             </motion.h1>
+            
+            <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto font-sans leading-relaxed">
+              {service.description}
+            </p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative overflow-hidden group rounded-2xl border border-white/10 shadow-xl bg-black/30 backdrop-blur-sm"
+            transition={{ delay: 0.15 }}
+            className="bg-[#0E0C1F]/90 backdrop-blur-md p-8 md:p-12 rounded-none border border-purple-500/15 shadow-xl"
           >
-            {/* Subtle center purple glow */}
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at center, rgba(90,20,150,0.2) 0%, transparent 60%)' }} />
-            
-            <div className="relative z-10 p-8 md:p-12">
-              {service.fullDescription.split('\n\n').map((paragraph, index) => (
-                <p key={index} className="mb-6 leading-relaxed text-[1.15rem] md:text-xl text-gray-200 drop-shadow-sm font-medium">
-                  {paragraph}
-                </p>
-              ))}
+            <div 
+              className="prose max-w-none text-gray-300 leading-relaxed font-sans"
+              dangerouslySetInnerHTML={{ __html: service.content || `<p>${service.description}</p>` }}
+            />
+
+            <div className="mt-12 pt-8 border-t border-purple-500/15 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <span className="text-xs font-mono text-gray-400 uppercase tracking-wider">
+                Need this assessment for your organization?
+              </span>
+              <a 
+                href="/#contact"
+                className="cyber-button-solid !rounded-none text-xs uppercase tracking-wider font-bold"
+              >
+                Schedule Assessment <Icons.ArrowRight className="w-4 h-4 ml-2" />
+              </a>
             </div>
           </motion.div>
         </div>

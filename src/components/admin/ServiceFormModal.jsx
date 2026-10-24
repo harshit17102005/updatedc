@@ -99,16 +99,16 @@ export const ServiceFormModal = ({ isOpen, onClose, onSuccess, initialData }) =>
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+          className="bg-[#0E0C1F] border border-purple-500/25 rounded-none w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
         >
-          <div className="flex justify-between items-center p-6 border-b border-gray-800">
+          <div className="flex justify-between items-center p-6 border-b border-purple-500/15">
             <h2 className="text-xl font-bold font-space text-white">
               {isEditing ? 'Edit Service' : 'Add New Service'}
             </h2>
             <button
               type="button"
               onClick={onClose}
-              className="p-2 text-gray-500 hover:text-white transition-colors rounded-full hover:bg-gray-800 z-50 relative"
+              className="p-2 text-gray-400 hover:text-white transition-colors rounded-none hover:bg-white/10 z-50 relative"
             >
               <X className="w-5 h-5" />
             </button>
@@ -116,14 +116,14 @@ export const ServiceFormModal = ({ isOpen, onClose, onSuccess, initialData }) =>
 
           <div className="p-6 overflow-y-auto">
             {error && (
-              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-600 rounded-lg text-sm font-medium">
+              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-none text-sm font-medium">
                 {error}
               </div>
             )}
 
             <form id="service-form" onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Service Title</label>
+                <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Service Title</label>
                 <input 
                   type="text" 
                   name="title" 
@@ -131,12 +131,12 @@ export const ServiceFormModal = ({ isOpen, onClose, onSuccess, initialData }) =>
                   value={formData.title} 
                   onChange={handleChange}
                   placeholder="e.g., Penetration Testing"
-                  className="w-full bg-gray-950 border border-gray-800 shadow-sm rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                  className="w-full bg-[#070611] border border-purple-500/20 rounded-none px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors text-sm font-sans"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Short Description (for Cards)</label>
+                <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Short Description (for Cards)</label>
                 <textarea 
                   name="description" 
                   required
@@ -144,12 +144,12 @@ export const ServiceFormModal = ({ isOpen, onClose, onSuccess, initialData }) =>
                   value={formData.description} 
                   onChange={handleChange}
                   placeholder="Brief summary of the service..."
-                  className="w-full bg-gray-950 border border-gray-800 shadow-sm rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+                  className="w-full bg-[#070611] border border-purple-500/20 rounded-none px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors text-sm font-sans"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Full Description (for Service Details Page)</label>
+                <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Full Description (for Service Details Page)</label>
                 <textarea 
                   name="fullDescription" 
                   required
@@ -157,32 +157,32 @@ export const ServiceFormModal = ({ isOpen, onClose, onSuccess, initialData }) =>
                   value={formData.fullDescription} 
                   onChange={handleChange}
                   placeholder="Detailed explanation of the service..."
-                  className="w-full bg-gray-950 border border-gray-800 shadow-sm rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors whitespace-pre-wrap"
+                  className="w-full bg-[#070611] border border-purple-500/20 rounded-none px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors text-sm font-sans whitespace-pre-wrap"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Icon</label>
+                <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Icon</label>
                 <select
                   name="icon"
                   value={formData.icon}
                   onChange={handleChange}
-                  className="w-full bg-gray-950 border border-gray-800 shadow-sm rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary transition-colors appearance-none"
+                  className="w-full bg-[#070611] border border-purple-500/20 rounded-none px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors text-sm font-sans appearance-none"
                 >
                   {AVAILABLE_ICONS.map(iconName => (
                     <option key={iconName} value={iconName}>{iconName}</option>
                   ))}
                 </select>
-                <p className="text-xs text-gray-500 mt-2">Select an icon to represent this service.</p>
+                <p className="text-xs text-gray-500 mt-2 font-mono">Select an icon to represent this capability.</p>
               </div>
             </form>
           </div>
 
-          <div className="p-6 border-t border-gray-800 flex justify-end gap-4 bg-gray-900/50">
+          <div className="p-6 border-t border-purple-500/15 flex justify-end gap-3 bg-[#070611]">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 rounded-xl border border-gray-700 font-medium text-gray-300 hover:bg-gray-800 transition-colors"
+              className="px-6 py-2.5 rounded-none border border-purple-500/20 font-mono text-xs uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
             >
               Cancel
             </button>
@@ -190,7 +190,7 @@ export const ServiceFormModal = ({ isOpen, onClose, onSuccess, initialData }) =>
               type="submit"
               form="service-form"
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="cyber-button-solid !rounded-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-xs font-mono uppercase tracking-wider font-bold"
             >
               {isSubmitting ? 'Saving...' : (isEditing ? 'Update Service' : 'Add Service')}
             </button>

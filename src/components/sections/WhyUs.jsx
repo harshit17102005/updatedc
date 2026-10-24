@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Target, Users, ThumbsUp, Clock } from 'lucide-react';
+import { Target, Shield, CheckCircle, Clock } from 'lucide-react';
 
 const stats = [
-  { label: 'Vulnerability Assessments', value: 100, suffix: '+', icon: Target },
-  { label: 'Networks Secured', value: 10, suffix: '+', icon: Users },
-  { label: 'Client Satisfaction', value: 99, suffix: '%', icon: ThumbsUp },
-  { label: 'SOC Support', value: 24, suffix: '/7', icon: Clock },
+  { label: 'Independent Security Audits', value: 120, suffix: '+', icon: Target },
+  { label: 'Verified Remediation Rate', value: 99, suffix: '%', icon: CheckCircle },
+  { label: 'Automated False-Positive Rate', value: 0, suffix: '%', icon: Shield },
+  { label: 'Emergency Incident Response SLA', value: 24, suffix: 'h', icon: Clock },
 ];
 
 const Counter = ({ value, suffix }) => {
@@ -16,9 +16,13 @@ const Counter = ({ value, suffix }) => {
 
   useEffect(() => {
     if (isInView) {
+      if (value === 0) {
+        setCount(0);
+        return;
+      }
       let start = 0;
-      const duration = 2000; // 2 seconds
-      const increment = value / (duration / 16); // 60fps
+      const duration = 1600;
+      const increment = value / (duration / 16);
 
       const timer = setInterval(() => {
         start += increment;
@@ -35,7 +39,7 @@ const Counter = ({ value, suffix }) => {
   }, [isInView, value]);
 
   return (
-    <span ref={ref} className="text-5xl md:text-6xl lg:text-7xl font-black font-sans text-white tracking-tighter">
+    <span ref={ref} className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-[var(--text-heading)] tracking-tight">
       {count}
       <span>{suffix}</span>
     </span>
@@ -44,25 +48,26 @@ const Counter = ({ value, suffix }) => {
 
 export const WhyUsStats = () => {
   return (
-    <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 lg:gap-8">
-      {stats.map((stat, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          className="flex flex-col items-center justify-center p-2 bg-transparent text-center group"
-        >
-          <div className="flex items-center gap-2 md:gap-3 lg:gap-4 mb-2">
-            <stat.icon className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-[#D4AF37] drop-shadow-md" strokeWidth={2} />
+    <div className="mt-12 sm:mt-14 border-t border-b border-[var(--border-hairline)] py-8 sm:py-10">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-hairline)]">
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className={`flex flex-col items-start ${index !== 0 ? 'pt-6 lg:pt-0 lg:pl-8' : ''}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <stat.icon className="w-4 h-4 text-[var(--text-muted)] shrink-0" strokeWidth={1.75} />
+              <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-medium">
+                METRIC 0{index + 1}
+              </span>
+            </div>
             <Counter value={stat.value} suffix={stat.suffix} />
+            <p className="mt-2 font-mono text-xs uppercase tracking-wider text-[var(--text-body)]">
+              {stat.label}
+            </p>
           </div>
-          <p className="mt-1 text-sm md:text-base text-gray-300 font-medium tracking-wide">
-            {stat.label}
-          </p>
-        </motion.div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

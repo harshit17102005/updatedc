@@ -8,45 +8,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: {
-          DEFAULT: '#000000',
-          darker: '#000000',
+        cream: {
+          DEFAULT: '#F9F6F0',
+          surface: '#F1ECE3',
+          border: '#DDD7CE',
         },
-        primary: {
-          DEFAULT: '#d4af37', // gold
-          dark: '#aa8c2c',
+        charcoal: {
+          DEFAULT: '#141414',
+          surface: '#1A1A1A',
+          border: '#27272A',
+          muted: '#4A4A4A',
         },
-        secondary: {
-          DEFAULT: '#c0c0c0', // silver
-          dark: '#999999',
+        editorial: {
+          crimson: '#991B1B',
+          ink: '#0F172A',
         },
-        accent: {
-          DEFAULT: '#ffd700', // bright gold
-          dark: '#b8860b',
-        },
-        success: '#00FF88',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        orbitron: ['Orbitron', 'sans-serif'],
-        space: ['Space Grotesk', 'sans-serif'],
-        monument: ['"Monument Extended"', 'sans-serif'],
-      },
-      backgroundImage: {
-        'cyber-grid': 'linear-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 175, 55, 0.15) 1px, transparent 1px)',
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['"Roboto Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        space: ['"Playfair Display"', 'Georgia', 'serif'], // Fallback alias so existing headers inherit editorial serif
       },
       animation: {
-        'spin-slow': 'spin 8s linear infinite',
+        'spin-slow': 'spin 12s linear infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 3s ease-in-out infinite',
       },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        }
-      }
     },
   },
   plugins: [],

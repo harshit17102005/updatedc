@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-
+import { ChevronDown, Edit, Trash2, Plus } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Edit, Trash2, Plus } from 'lucide-react';
 import { fetchFaqs, deleteFaq } from '../../utils/faqStore';
 import { FaqFormModal } from '../ui/FaqFormModal';
 
@@ -40,89 +38,101 @@ export const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-24 relative z-10">
+    <section id="faq" className="py-14 sm:py-16 border-b border-[var(--border-hairline)] bg-[var(--bg-base)]">
       <div className="container mx-auto px-6 max-w-4xl">
-        <div className="text-center mb-16">
-          <h2 
-            className="text-3xl md:text-4xl lg:text-5xl font-black uppercase mb-6 text-white drop-shadow-md"
-            style={{ fontFamily: '"Monument Extended", "Syncopate", sans-serif' }}
-          >
-            FREQUENTLY ASKED <span className="text-[#c77dff]">QUESTIONS</span>
+        
+        {/* Section Header */}
+        <div className="pb-5 mb-8 border-b border-[var(--border-hairline)]">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 bg-[var(--text-heading)] rounded-none" />
+            <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] font-medium">
+              METHODOLOGY CLARIFICATIONS & FAQ
+            </span>
+          </div>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[var(--text-heading)] mb-4 md:whitespace-nowrap">
+            Security Engagement Inquiries.
           </h2>
-          <p className="text-gray-300 drop-shadow-sm">
-            Clear answers to common questions about our security services.
+          <p className="font-sans text-sm sm:text-base text-[var(--text-body)] leading-relaxed max-w-2xl">
+            Practical clarity regarding our scoping procedures, testing rules of engagement, and formal remediation sign-off protocols.
           </p>
+
           {isAuthenticated && (
-            <div className="mt-8">
+            <div className="mt-6">
               <button 
                 onClick={() => { setEditingFaq(null); setIsModalOpen(true); }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold transition-colors border border-white/20 shadow-lg"
+                className="brand-btn-primary !py-2.5 !px-5 text-xs flex items-center gap-2"
               >
-                <Plus className="w-5 h-5" />
-                Add New FAQ
+                <Plus className="w-3.5 h-3.5" />
+                Add Question
               </button>
             </div>
           )}
         </div>
 
-        <div className="space-y-4">
+        {/* Clean Accordion Items */}
+        <div className="divide-y divide-[var(--border-hairline)] border-t border-b border-[var(--border-hairline)]">
           {faqs.map((faq, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className={`bg-black/40 backdrop-blur-xl border border-white/10 shadow-2xl rounded-xl overflow-hidden transition-colors duration-300 ${openIndex === index ? 'border-[#c77dff]/50 bg-white/10' : ''}`}
+              className="py-6 transition-colors duration-200"
             >
-                <button
-                  className="w-full text-left p-6 flex justify-between items-center focus:outline-none"
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                >
-                  <span className={`font-space font-semibold pr-8 ${openIndex === index ? 'text-[#c77dff]' : 'text-white'}`}>
-                    {faq.question}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    {isAuthenticated && (
-                      <div className="flex gap-2 mr-2" onClick={(e) => e.stopPropagation()}>
-                        <button onClick={() => handleEdit(faq)} className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors">
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        <button onClick={() => handleDelete(faq._id || faq.id)} className="p-2 bg-white/10 hover:bg-red-500 hover:text-white text-red-400 rounded-full transition-colors">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    )}
-                    <ChevronDown 
-                      className={`w-5 h-5 shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180 text-[#c77dff]' : 'text-gray-400'}`} 
-                    />
-                  </div>
-                </button>
-              
+              <button
+                className="w-full text-left flex justify-between items-start gap-4 focus:outline-none cursor-pointer group"
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+              >
+                <span className="font-serif text-lg sm:text-xl font-bold text-[var(--text-heading)] group-hover:opacity-80 transition-opacity">
+                  {faq.question}
+                </span>
+
+                <div className="flex items-center gap-3 shrink-0 pt-1">
+                  {isAuthenticated && (
+                    <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
+                      <button 
+                        onClick={() => handleEdit(faq)} 
+                        className="p-1.5 border border-[var(--border-hairline)] text-[var(--text-heading)] rounded-none"
+                      >
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(faq._id || faq.id)} 
+                        className="p-1.5 border border-red-500/30 text-red-600 rounded-none"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                  <ChevronDown 
+                    className={`w-4 h-4 text-[var(--text-muted)] transition-transform duration-200 ${openIndex === index ? 'rotate-180' : ''}`} 
+                  />
+                </div>
+              </button>
+
               <AnimatePresence>
                 {openIndex === index && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
                   >
-                    <div className="p-6 pt-0 text-gray-300 leading-relaxed border-t border-white/10">
+                    <div className="pt-4 pr-12 text-[var(--text-body)] font-sans text-sm sm:text-base leading-relaxed">
                       {faq.answer}
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           ))}
         </div>
+
       </div>
 
       <FaqFormModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSuccess={loadFaqs} 
         initialData={editingFaq}
-        onSuccess={loadFaqs}
       />
     </section>
   );

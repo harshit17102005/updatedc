@@ -14,6 +14,7 @@ import { ServiceDetailsPage } from './pages/ServiceDetailsPage';
 
 import { AnimatedBackground } from './components/ui/AnimatedBackground';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   // Smooth scroll behavior
@@ -26,36 +27,42 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <div className="relative min-h-screen mesh-bg text-gray-800 dark:text-gray-200 font-sans selection:bg-primary/30 selection:text-gray-900 dark:selection:text-white">
-          <header>
-            <Navbar />
-          </header>
-          
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/blogs" element={<BlogPage />} />
-              <Route path="/news" element={<NewsPage />} />
-              <Route path="/secure-admin" element={<AdminBlog />} />
-              <Route path="/post/:id" element={<BlogPost />} />
-              <Route path="/faq" element={<FAQPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/legal" element={<PrivacyTermsPage />} />
-              <Route path="/service/:id" element={<ServiceDetailsPage />} />
-            </Routes>
-          </main>
+      <ThemeProvider>
+        <BrowserRouter>
+          <div className="relative min-h-screen text-[var(--text-base)] font-sans selection:bg-purple-600/30 selection:text-white transition-colors duration-300">
+            {/* Ambient Background Layer */}
+            <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
+              <AnimatedBackground />
+            </div>
 
-          <div aria-hidden="true" className="pointer-events-none">
-            <AnimatedBackground />
+            {/* Page Content Layer */}
+            <div className="relative z-10 flex flex-col min-h-screen">
+              <header>
+                <Navbar />
+              </header>
+            
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/blogs" element={<BlogPage />} />
+                  <Route path="/news" element={<NewsPage />} />
+                  <Route path="/secure-admin" element={<AdminBlog />} />
+                  <Route path="/post/:id" element={<BlogPost />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/legal" element={<PrivacyTermsPage />} />
+                  <Route path="/service/:id" element={<ServiceDetailsPage />} />
+                </Routes>
+              </main>
+
+              <footer>
+                <Footer />
+              </footer>
+            </div>
           </div>
-          
-          <footer>
-            <Footer />
-          </footer>
-        </div>
       </BrowserRouter>
-    </AuthProvider>
+    </ThemeProvider>
+  </AuthProvider>
   );
 }
 

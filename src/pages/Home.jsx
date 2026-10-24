@@ -73,9 +73,9 @@ export const Home = () => {
       {/* Fixed Enquire Now Button */}
       <a 
         href="#contact" 
-        className={`fixed bottom-10 right-10 cyber-button-highlight text-center flex items-center justify-center z-50 transition-opacity duration-300 ${showEnquireBtn ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-8 right-8 brand-btn-primary !rounded-none text-xs font-mono uppercase tracking-widest font-semibold text-center flex items-center justify-center z-50 transition-opacity duration-300 !py-3 !px-6 border border-[var(--border-hairline)] ${showEnquireBtn ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
-        Enquire Now
+        Enquire Scope
       </a>
     </main>
   );
